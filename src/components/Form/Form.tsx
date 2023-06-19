@@ -8,10 +8,12 @@ import Step4 from "./Step4/Step4.tsx";
 import Loader from "react-js-loader";
 import { alert } from "../../utils/alert.ts";
 import { useSelector } from "react-redux";
+import {useNavigate } from "react-router-dom";
 const UserForm = () => {
   const [page, setPage] = useState(0);
   const [loading , setLoading ] = useState(false);
   const userToken = useSelector((state:any) => state.userToken);
+  const navigate = useNavigate();
 
   interface userInput {
     [key: string]: string | string[] | File[] | undefined;
@@ -83,11 +85,21 @@ const UserForm = () => {
         body: formData,
       });
       const data = await res.json();
+      console.log(data)
+      if(data.id){
+        alert("sucess" , "Form submitted successfully" , "success");
+        // window.location.reload();
+      }
+      else{
+        alert("error" , data.message , "error");
+        // window.location.reload();
+      }
       console.log(data);
     } catch (err: any) {
       alert("error", err.message, "error");
     } finally {
       setLoading(false);
+      navigate('/progress')
     }
   };
   return (

@@ -45,6 +45,16 @@ const Step2 = (props : any) => {
         />
         </div>
         <div className={styles.formGroup}>
+      <label className={styles.label}>State</label>
+      <input
+        type="text"
+        className={styles.input}
+        name="state"
+        placeholder="state"
+        onChange={(event)=>{props.handleChange("state")(event.target.value)}}
+        />
+        </div>
+        <div className={styles.formGroup}>
     <label className={styles.label}>Country</label>
       <input
         type="text"

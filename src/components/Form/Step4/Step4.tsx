@@ -33,9 +33,11 @@ const Step4 = (props: any) => {
     const filePromises = newFiles.map((file) => {
       return new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
+        reader.readAsDataURL(file);
         reader.onloadend = () => {
           if (reader.result) {
             const binaryString = reader.result.toString();
+            // const binaryString = reader.result;
             resolve(binaryString);
           } else {
             reject(new Error("Failed to read file."));
@@ -44,7 +46,7 @@ const Step4 = (props: any) => {
         reader.onerror = (error) => {
           reject(error);
         };
-        reader.readAsBinaryString(file);
+        // reader.readAsBinaryString(file);
       });
     });
 

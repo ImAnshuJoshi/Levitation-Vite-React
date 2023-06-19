@@ -12,9 +12,8 @@ const UserForm = () => {
   const [page, setPage] = useState(0);
   const [loading , setLoading ] = useState(false);
   const userToken = useSelector((state:any) => state.userToken);
-  console.log(userToken)
 
-  interface UserInput {
+  interface userInput {
     [key: string]: string | string[] | File[] | undefined;
   }
   
@@ -26,6 +25,7 @@ const UserForm = () => {
     address_2:"",
     city:"",
     pincode:"",
+    state:"",
     country:"",
     single_file:"",
     multi_file:[],
@@ -61,15 +61,20 @@ const UserForm = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      for (let key in userInput) {
-        if (Array.isArray(userInput[key])) {
-          for (let i = 0; i < userInput[key].length; i++) {
-            formData.append(`${key}[]`, userInput[key][i]);
-          }
-        } else {
-          formData.append(key, userInput[key]);
-        }
+      formData.append("name" , userInput.name);
+      formData.append("email" , userInput.email);
+      formData.append("phone_number" , userInput.phone_number);
+      formData.append("address_1" , userInput.address_1);
+      formData.append("address_2" , userInput.address_2);
+      formData.append("city" , userInput.city);
+      formData.append("pincode" , userInput.pincode);
+      formData.append("country" , userInput.country);
+      formData.append("state" , userInput.state);
+      for(let i=0;i<userInput.multi_file.length;i++){
+        formData.append("multi_file" , userInput.multi_file[i]);
       }
+      formData.append("geolocation" , userInput.geolocation);
+      formData.append("single_file" , userInput.single_file);
       const res = await fetch("https://x8ki-letl-twmt.n7.xano.io/api:XooRuQbs/form", {
         method: "POST",
         headers: {
@@ -103,10 +108,10 @@ const UserForm = () => {
         />
           :
           <button
-            onClick={async (e) => {
+            onClick={async (e:any) => {
               e.preventDefault();
               if (page === pages.length - 1) {
-                await handleSubmit(e)
+                handleSubmit(e)
               } else {
                 setPage((currPage) => currPage + 1);
               }

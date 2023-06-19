@@ -62,3 +62,15 @@
   .forgotPasswordBtn:hover{
     cursor: pointer;
   }
+  @media screen and (max-width: 388px) {
+    /* .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 3rem;
+      background-color: #1f1f1f;
+      border-radius: 4px;
+      color: #fff;
+    } */
+  }

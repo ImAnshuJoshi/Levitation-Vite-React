@@ -4,13 +4,14 @@ import { alert } from '../../utils/alert';
 import Loader from "react-js-loader";
 import { useSelector, useDispatch } from "react-redux";
 import {setUser , setToken} from "../../state/auth/auth-slice"
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
     const [loading , setLoading] = useState(false);
     const dispatch = useDispatch();
-    const state = useSelector((state) => state);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e : any) =>{
         e.preventDefault();
@@ -32,6 +33,7 @@ function Login() {
               alert("success" , "You have successfully logged in" , "success");
               dispatch(setUser(email));
               dispatch(setToken(authToken));
+              navigate('/progress')
             }
             else{
               alert("error" , "Invalid credentials" , "error");

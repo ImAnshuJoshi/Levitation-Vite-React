@@ -10,10 +10,10 @@ const Step4 = (props: any) => {
       navigator.geolocation.getCurrentPosition(
         function (position) {
           const { latitude, longitude } = position.coords;
-          setLat(latitude);
-          setLong(longitude);
-          props.handleChange("lat")(lat);
-          props.handleChange("long")(long);
+          console.log(latitude , longitude);
+          setLat(latitude.toString());
+          setLong(longitude.toString());
+          props.handleChange("geolocation")(latitude +"," + longitude)
         },
         function (error) {
           console.error(`Error getting user's location: ${error.message}`);
@@ -70,9 +70,6 @@ const Step4 = (props: any) => {
     }
   };
 
-  const showFiles = () =>{
-    console.log(files);
-  }
 
   return (
     <div className={`${styles.form} ${styles.darkTheme}`}>
@@ -93,13 +90,12 @@ const Step4 = (props: any) => {
       <button onClick={handleAddMore}>Upload file</button>
     }
     </div>
-    <button onClick={showFiles}></button>
     <div className={styles.formGroup}>
       <label className={styles.label}>Latitude</label>
-      <input className={styles.input} type="text" value={lat} onChange={props.handleChange("lat")}/>
+      <input className={styles.input} type="text" value={lat}/>
 
       <label className={styles.label}>Longitude</label>
-      <input className={styles.input} type="text" value={long} onChange={props.handleChange("long")} />
+      <input className={styles.input} type="text" value={long}/>
     </div>
     </div>
   );

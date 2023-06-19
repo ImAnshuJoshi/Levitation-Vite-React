@@ -31,7 +31,7 @@ const Step2 = (props : any) => {
         className={styles.input}
         name="city"
         placeholder="city"
-        onChange={props.handleChange("city")}
+        onChange={(event)=>{props.handleChange("city")(event.target.value)}}
         />
         </div>
         <div className={styles.formGroup}>

@@ -8,7 +8,7 @@ const Step3 = (props: any) => {
 
       reader.onload = () => {
         const binaryData = reader.result;
-        props.handleChange("file")(binaryData);
+        props.handleChange("single_file")(binaryData);
       };
 
       reader.readAsBinaryString(uploadedFile);

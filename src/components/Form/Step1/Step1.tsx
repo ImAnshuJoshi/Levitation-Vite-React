@@ -17,7 +17,7 @@ const Step1 = (props: any) => {
     flag: string;
   }
   const countries: Country[] = [
-    { name: "India", code: "+91" , flag:"🇮🇳" },
+    { name: "In", code: "+91" , flag:"🇮🇳" },
     { name: "USA", code: "+1", flag:"🇺🇸" },
     { name: "UK", code: "+44" , flag:"🇬🇧"},
   ];
@@ -29,9 +29,9 @@ const Step1 = (props: any) => {
         <input
           type="text"
           className={styles.input}
-          name="username"
+          name="name"
           placeholder="Enter your name"
-          onChange={(event)=>{props.handleChange("username")(event.target.value)}}
+          onChange={(event)=>{props.handleChange("name")(event.target.value)}}
         />
       </div>
       <div className={styles.formGroup}>

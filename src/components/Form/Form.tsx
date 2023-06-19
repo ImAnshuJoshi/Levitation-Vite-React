@@ -5,11 +5,21 @@ import Step3 from "./Step3/Step3.tsx"
 import ProgressBarComp from "../ProgressBar/ProgressBarComp.tsx";
 import styles from "./Form.module.css"
 import Step4 from "./Step4/Step4.tsx";
+import Loader from "react-js-loader";
+import { alert } from "../../utils/alert.ts";
+import { useSelector } from "react-redux";
 const UserForm = () => {
   const [page, setPage] = useState(0);
+  const [loading , setLoading ] = useState(false);
+  const userToken = useSelector((state:any) => state.userToken);
+  console.log(userToken)
 
+  interface UserInput {
+    [key: string]: string | string[] | File[] | undefined;
+  }
+  
   const [userInput, setUserInput] = useState({
-    username:"",
+    name:"",
     email:"",
     phone_number:"",
     address_1:"",
@@ -19,8 +29,7 @@ const UserForm = () => {
     country:"",
     single_file:"",
     multi_file:[],
-    lat:"",
-    long:""
+    geolocation:""
   });
   const nextStep = () => {
     setPage((currPage) => currPage + 1);
@@ -46,6 +55,36 @@ const UserForm = () => {
   const handleChange = (input: any) => (value:string) => {
     setUserInput({ ...userInput, [input]: value });
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      for (let key in userInput) {
+        if (Array.isArray(userInput[key])) {
+          for (let i = 0; i < userInput[key].length; i++) {
+            formData.append(`${key}[]`, userInput[key][i]);
+          }
+        } else {
+          formData.append(key, userInput[key]);
+        }
+      }
+      const res = await fetch("https://x8ki-letl-twmt.n7.xano.io/api:XooRuQbs/form", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (err: any) {
+      alert("error", err.message, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className={styles.userForm}>
       <div className={styles.progressBar}>
@@ -55,10 +94,19 @@ const UserForm = () => {
       <div className={styles.userFormContainer}>
         <div className="userForm-container-body">{PageDisplay()}</div>
         <div className="userForm-container-footer">
+          {loading ? 
+          <Loader
+          type="bubble-loop"
+          bgColor={"#FFFFFF"}
+          color={"#FFFFFF"}
+          size={30}
+        />
+          :
           <button
-            onClick={() => {
+            onClick={async (e) => {
+              e.preventDefault();
               if (page === pages.length - 1) {
-                console.log(userInput);
+                await handleSubmit(e)
               } else {
                 setPage((currPage) => currPage + 1);
               }
@@ -68,6 +116,7 @@ const UserForm = () => {
               ? "Submit"
               : "Next"}
           </button>
+}
         </div>
       </div>
     </div>

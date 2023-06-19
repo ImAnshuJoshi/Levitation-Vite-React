@@ -13,7 +13,7 @@ function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e : any) =>{
+    const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) =>{
         e.preventDefault();
         try{
             setLoading(true)
@@ -74,7 +74,7 @@ function Login() {
           Login
         </button>
           }
-          <span className={styles.forgotPasswordBtn}>Forgot password ?</span>
+          <a className={styles.forgotPasswordBtn} href="/forgetpassword">Forgot password ?</a>
       </form>
     </div>
   );
